@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <title>Hunt Buttons</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="https://fonts.googleapis.com/css2?family=Carter+One" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Akshar:wght@300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Arvo:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative&display=swap" rel="stylesheet">
+  
+<link rel="stylesheet" href="https://fonts.sandbox.google.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.0.0/umd/react.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  
+</head>
+
+<body>
+  <div class="full-page-content">
+    <div id="Hunt_Container">
+      
+      <button id="Hunt_Collapsing_Button" type="button" class="collapsing-button" data-bs-toggle="collapse" data-bs-target="#Hunt_Card_Board">Hunt</button>
+    
+      <div id="Hunt_Card_Board" class="collapse show collapsible-area">
+        <div id="Hunt_Grid">
+            <button class="hunt-card">
+              
+              <div class="hunt-card-animal">
+                <img src="https://images.unsplash.com/photo-1633517244345-44a659c78fc5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80" class="img-cover">
+              </div>
+              <div class="hunt-card-animal">
+                <img src="https://images.unsplash.com/photo-1588508435560-585279aa19de?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80" class="img-cover">
+              </div>
+              <div class="hunt-card-locale">
+                <img src="https://images.unsplash.com/photo-1560851691-ebb64b584d3d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1499&q=80" class="img-cover">
+              </div>
+              
+              <div class="progress" style="height:7vw;">
+                <div class="progress-bar progress-bar-striped bg-warning" style="width:100%;"></div>
+              </div>
+            </button>
+        </div>      
+      </div>
+      
+    </div>
+    
+    <button id="Animals_Collapsing_Button" type="button" class="collapsing-button" data-bs-toggle="collapse" data-bs-target="#Animals_Card_Board">Animals</button>
+  
+      <div id="Animals_Card_Board" class="collapse show collapsible-area">
+        <div id="Animals_Grid">
+          <template id="Animal_Card_Template">
+            <button class="animal-card">
+              <div class="animal-icon">
+                <img src="https://images.unsplash.com/photo-1579380656108-f98e4df8ea62?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80" class="img-cover">
+                <div class="animal-name-div">
+                  <p class="animal-name">Arctosine</p>
+                </div>
+                <div class="animal-difficulty-div">
+                  <span class="material-symbols-outlined">settings</span><span style="font-size: 3vw">&nbsp;</span>×&nbsp;54%
+                </div>
+              </div>
+            </button>
+          </template>
+        </div>      
+      </div>
+    
+    <div id="Material_Container">
+    
+      <button id="Material_Collapsing_Button" type="button" class="collapsing-button" data-bs-toggle="collapse" data-bs-target="#Material_Collapsible_Content">Material</button>
+  
+      <div id="Material_Collapsible_Content" class="collapse show collapsible-area item-grid">
+        
+        <button class="item-button">
+          <div class="item-icon-div">
+            <img src="images/potion-health.svg" class="img-cover item-blue">
+          </div>
+          <div class="item-quantity text-shadow">10</div>
+        </button>
+        
+        <button class="item-button">
+          <div class="item-icon-div">
+            <img src="images/potion-reg.svg" class="img-cover item-green">
+          </div>
+          <div class="item-quantity text-shadow">10</div>
+        </button>
+        
+      </div>
+    </div>
+  
+    <div class="row flex-fill flex-column collapsible-area" style="border: 0;"></div>
+  </div>
+  
+  <div id="Monster_Config" class="d-none">
+    
+    <div id="Monster_Name" class="d-grid fixed-to-top">
+      <button type="button" class="btn btn-block text-white collapsing-button bg-dark" style="line-height: 0.9;">
+        <span class="float-start playfair">&nbsp;&nbsp;</span>
+        <span class="float-center cinzel">Banbaro</span>
+        <span class="float-end playfair">×</span>
+      </button>
+    </div>
+    
+    <div id="Monster_Subtitle" class="d-grid">
+      <button type="button" class="btn btn-block text-white collapsing-button bg-dark" style="line-height: 0.9;">
+        <span class="float-start playfair">&nbsp;&nbsp;</span>
+        <span class="float-center cinzel">Banbaro</span>
+        <span class="float-end playfair">×</span>
+        <hr class="m-1 gradient">
+        <span class="float-center cinzel" style="font-size:3vw;">Ferocious Bull Wyvern</span>
+      </button>
+    </div>
+    
+    <div id="Banbaro_Splash" class="fill"> 
+      <img class="splash-render" src="images/monster-splash/Banbaro.png" style="background-image:url('https://live.staticflickr.com/65535/48779432053_94883cb747_b.jpg'); background-size: cover;">
+    </div>
+
+
+    <div id="Monster_Loadout_Collapsing_Button" class="d-grid">
+      <button type="button" class="btn btn-block text-white collapsing-button bg-dark">
+        <span class="float-center cinzel" style="font-size: 5vw;">Loadout</span>
+      </button>
+    </div>   
+    
+    <div id="Banbaro_Loadout_Collapsable_Content" class="container">
+      <div class="row border">
+        <div class="col border">
+          Current:
+        </div>
+        <div class="col border">
+          Compare:
+        </div>
+      </div>
+      <div class="row border">
+        <div class="col border">
+          column
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  
+  <script type="module" defer src="main.js"></script>
+  
+</body>
+
+</html>

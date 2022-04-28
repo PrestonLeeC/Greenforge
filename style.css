@@ -1,0 +1,321 @@
+:root {
+  --color-light-text: #FFEEDDEE;
+  --color-hunt: #806852;
+  --color-animals: #63755c;
+  --color-material: #5f6f72;
+}
+
+body {
+  background-color: var(--color-hunt);
+  font-family: 'Akshar', sans-serif;
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+  margin: 0;
+  min-height:100vh;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+body::-webkit-scrollbar { /* Chrome, Safari and Opera */
+    display: none;
+}
+
+.progress {
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+  background-color: #413f3e;
+}
+
+.progress-bar {
+    -webkit-transition: none;
+    -moz-transition: none;
+    -ms-transition: none;
+    -o-transition: none;
+    transition: none;
+}
+
+.collapsing {
+    -webkit-transition: none;
+    transition: none;
+    display: none;
+}
+
+.collapsing-button {
+  border: none;
+  width: 100vw;
+  border-radius: 0;
+  padding-top: 8px;
+  font-family: 'Cinzel';
+  font-size: 8vw;
+  color: var(--color-light-text);
+  border-bottom: 2px solid #FFEEDD33;
+  text-shadow: 1px 1px 2px #00000033;
+}
+
+.collapsing-button::first-letter {
+  font-family: 'Cinzel';
+  font-size: 7.4vw;
+}
+
+#Hunt_Grid {
+  display: grid;
+  gap: 2vw;
+  padding: 2vw;
+}
+
+.hunt-card {
+  background: #3e3b38;
+  height: 70vw;
+  aspect-ratio: 1/1;
+  font-size: 7vw;
+  padding: 0;
+  border-radius: 3vw;
+  border: 0;
+  overflow: hidden;
+  position: relative;
+  white-space: nowrap;
+}
+
+.animal-icons-round {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+padding: 0;
+margin: 0;
+}
+
+.animal-icons-round img {
+  border-radius: 150px;
+  aspect-ratio: 1/1;
+  width: 26vw;
+  border-bottom: 4px solid #dd370e;
+  border-bottom-left-radius: 150px;
+  border-bottom-right-radius: 150px;
+}
+
+.animal-card {
+  background: #3e3b38;
+  aspect-ratio: 2.5/3.5;
+  font-stretch: expanded;
+  font-size: 7vw;
+  margin: 1vw;
+  padding: 0;
+  border-radius: 3vw;
+  border: 0;
+  overflow: hidden;
+}
+
+.animal-icon {
+  background-color: #3e3b38;
+  overflow: hidden;
+  aspect-ratio: 2.5/3.5;
+  position: relative;
+}
+
+.animal-name-div {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  background-image: linear-gradient(#00000088, #00000000);
+}
+
+.animal-name {
+  text-align: center;
+  color: var(--color-light-text);
+  font-family: "cinzel";
+  text-shadow: 0 1px 2px black;
+}
+
+.animal-difficulty-div {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-image: linear-gradient(#00000000, #00000088);
+  color: var(--color-light-text);
+  font-family: "cinzel";
+  border-bottom: 4px solid #dd370e;
+  border-bottom-left-radius: 3vw;
+  border-bottom-right-radius: 3vw;
+  text-shadow: 0 1px 2px black;
+}
+
+.img-cover {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.collapsible-area {  
+  background-color:#31302f;
+  margin: 0;
+  padding: 0;
+  border-style: solid;
+  border-color: #31302f;
+  border-width: 0.1vw;
+}
+
+.collapsing-button:focus {
+  box-shadow: 0px 0px 0px black;
+}
+
+#Hunt_Collapsing_Button {
+  background-color: var(--color-hunt);
+}
+
+#Animals_Collapsing_Button {
+  background-color: var(--color-animals);
+}
+
+#Material_Collapsing_Button {
+  background-color: var(--color-material);
+}
+
+#Animals_Grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1vw;
+  padding: 1vw;
+}
+
+.item-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  gap: 2vw;
+  padding: 2vw;
+}
+
+.item-button {
+  background-color: #23211e !important;
+  border-radius: 3vw;
+  border: none;
+  padding: 1.3vw;
+}
+
+.item-icon-div {
+  background-color: #000000;
+  width: 100%;
+  border-radius: 2vw;
+  padding: 1vw;
+  margin-bottom: 1.5vw;
+}
+
+.item-quantity {
+  color: var(--color-light-text);
+  font-family: 'Cinzel', sans-serif;
+  font-size: 6vw;
+  font-weight: 700;
+  line-height: 0.8;
+}
+
+.blue-icon {
+  width: 100%;
+  filter: sepia(78%) saturate(1500%) hue-rotate(161deg) brightness(75%) contrast(100%);
+}
+
+.monster-difficulty {
+  height: 20%;
+  box-sizing: border-box;
+  padding-top: 0;
+  padding-bottom: 6px;
+  font-family: 'Cinzel';
+  font-size: 7vw;
+  color: var(--color-light-text) !important;
+  text-shadow: 1px 1px 2px #00000033;
+}
+
+.monster-difficulty img {
+  filter: invert(100%);
+}
+
+.hard {
+  background-color: #a17878;
+  box-shadow: inset 0 -3vw 0 #924949;
+}
+
+.easy {
+  background-color: #759173;
+  box-shadow: inset 0 -3vw 0 #4f6452;
+}
+
+.text-shadow {
+  text-shadow: 
+    -1px -1px 0 #000,
+     0   -1px 0 #000,
+     1px -1px 0 #000,
+     1px  0   0 #000,
+     1px  1px 0 #000,
+     0    1px 0 #000,
+    -1px  1px 0 #000,
+    -1px  0   0 #000;
+}
+
+.vertical-fill {
+  flex: 1 1 auto;
+  border-radius: 0;
+}
+
+.monster-splash img {
+  min-width: 100%;
+  max-height: 100%;
+}
+
+.fill {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.fill img {
+  flex-shrink: 0;
+  min-width: 100%;
+  max-height: 150%;
+}
+
+.cinzel {
+  font-family: 'Cinzel', serif;
+  font-size: 7vw;
+}
+
+.playfair {
+  font-family: 'Playfair Display';
+  font-size: 6vw;
+}
+
+.gradient {
+  background: linear-gradient(to right, #FFFFFF00, #FFFFFFFF, #FFFFFF00);
+}
+
+.fixed-to-top {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.splash-render {
+  width: 100%;
+}
+
+.bg-dark {
+  background-color: #222120;
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 100;
+  font-size:9vw;
+  vertical-align: bottom;
+  line-height: 1.2;
+}
+
+.item-green {
+  filter: invert(40%) sepia(100%) saturate(200%) hue-rotate(90deg);
+}
+
+.item-blue {
+  filter: invert(55%) sepia(38%) saturate(458%) hue-rotate(90deg) brightness(89%) contrast(90%);
+}

@@ -46,7 +46,7 @@ body::-webkit-scrollbar {
 	font-size: var(--fontsize);
 	font-weight: 500;
 	font-family: "Poppins";
-	font-size: 1.0em;
+	font-size: 3.6vw;
 	white-space: nowrap;
 	-webkit-tap-highlight-color: transparent;
 	scrollbar-width: none;  /* Firefox disable scrollbar*/

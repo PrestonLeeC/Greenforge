@@ -1,4 +1,4 @@
-import {Monsters} from '../monsters.js'
+import {Monsters} from './Greenforge/monsters.js'
 
 // Create the player save file
 var playerData = {

@@ -1,4 +1,4 @@
-import {Monsters} from '/modules/monsters.js'
+import {Monsters} from './modules/monsters.js'
 
 // Create the player save file
 var playerData = {

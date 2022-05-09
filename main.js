@@ -1,22 +1,30 @@
+// Monster Data
 const Monsters = {
 	// ==============
 	Marinmoth: {
-
+    base_material_loot: [
+      {
+        item: "Marinmoth Scale",
+        count: 3
+      },
+      {
+        item: "Marinmoth Wing",
+        count: 1
+      }
+    ],
+    default_discovered_materials: ["Marinmoth Scale", "Marinmoth Wing"]
 	},
 	// ==============
 	// Balverine inspired, but more pig than wolf.
 	// Paw Pig Wolf
 	Palvig: {
-
 	},
 	// ==============
 	// Unicorn? Harlequin-like techniques?
 	Hartleigh: {
-
 	},
 	// ==============
 	Abnocte: {
-
 	},
 	// ==============
 	// Ygsfalo (Ex- Ygg is a tree, important to all that is holy)
@@ -31,24 +39,19 @@ const Monsters = {
 	// Fearan (Fear Talon Raptor) & Fearan Beth
 	// Beth (Pest) as suffix for "Great" or Tempered (Heroic version)
 	Fearan: {
-
 	},
 	// ==============
 	// Zeser (Blazeserpent) & Zeser Beth
 	Zeser: {
-
 	},
 	// ==============
 	// Vigure Beth (Viper Figure Pest)
 	Vigure: {
-
 	},
 	// ==============
 	// Zeser (Blazeserpent) & Zeser Beth
 	Zeser: {
-			name: "Zeser",
 			combat_power: 0.2,
-			icon_url:"monsters/Zeser.png",
 			body: {
 			impact: 3, slashing: 3, shot: 3,
 					fire: 3, water: 3,
@@ -64,9 +67,7 @@ const Monsters = {
 	},  
 	// ==============
 	Saelvire: {
-			name: "Saelvire",
 			combat_power: 0.2,
-			icon_url:"monsters/Saelvire.png",
 			body: {
 			impact: 3, slashing: 3, shot: 3,
 					fire: 3, water: 3,
@@ -80,9 +81,7 @@ const Monsters = {
 	},
 	// ==============
 	Venilios: {
-			name: "Venilios",
 			combat_power: 1,
-			icon_url:"monsters/Venilios.png",
 			body: {
 			impact: 3, slashing: 2, shot: 3,
 					fire: 3, water: 3,
@@ -129,9 +128,7 @@ const Monsters = {
 	// ====(Arctocine means grey bear)
 	// ====(Carnivoran means mammal that has bladelike carnassial teeth and eats meat)
 	Arctocine: {
-			name: "Arctocine",
 			combat_power: 2,
-			icon_url:"monsters/rathalos.png",
 			body: {
 			impact: 3, slashing: 3, shot: 3,
 					fire: 3, water: 3,
@@ -145,6 +142,7 @@ const Monsters = {
 	},
 }
 
+// Item Data
 const Items = {
   // ========
   //  Potion
@@ -159,14 +157,20 @@ const Items = {
 var playerData = {
   isNewAccount: true
 }
+
+// Testing values for player save file
+playerData = {
+  isNewAccount: false,
+  "Marinmoth Scale": 5
+}
+
+// Add a bunch of monsters to the playerData
 Object.entries(Monsters).forEach(monster => {
   let name = String(monster).split(',')[0];
   playerData[`${name}`] = {
     material: []
   }
 });
-console.log(playerData);
-
 
 // disable image dragging
 window.onload = function (e) {
@@ -179,26 +183,9 @@ window.onload = function (e) {
       }
   }
 };
-
 function disableDragging(e) {
   e.preventDefault();
 }
-
-/* Create All Monster Cards
-grid = document.getElementById("Animals_Grid")
-template = document.getElementById("Animal_Card_Template")
-
-Object.entries(Monsters).forEach(monster => {
-  const [key, value] = monster;
-  const card = template.content.querySelector("button").cloneNode(true);
-  card.id = key;
-  grid.appendChild(card);
-  card.addEventListener("click",clickHandler);
-  card.firstElementChild.firstElementChild.src = value.icon_url;
-  card.getElementsByTagName('p')[0].innerText = value.name;
-
-})
-*/
 
 // Create all Monster Cards
 Object.entries(Monsters).forEach(monster => {
@@ -308,21 +295,31 @@ Object.entries(Monsters).forEach(monster => {
     
     // Add the new HTML to the Monster_List
     document.getElementById("Monsters_List").innerHTML += newHTML;
-
-    console.log(`${name} added to HTML.`)
 })
 
-// Add material to Monster HTML
-const hunt = function (monsterName) {
+// Add known materials to each monster
+Object.entries(Monsters).forEach(monster => {
+  let container = document.getElementById("Marinmoth Materials Container");
+  
+})
 
+
+// Hunt whenever a player clicks a monster or is auto-clicked
+function hunt (monsterName) {
+  // Takes in a monster name
+  // Uses the player save file info to determine
+  // What gear you're using
+  // So we can get a combat rating
+  // And then we use the combat rating as input
+  // On the monster loot table
+  // To randomly select a loot item
 }
-
 
 // Add on-click to monster icon
 Object.entries(Monsters).forEach(monster => {
   let name = String(monster).split(',')[0];
   document.getElementById(`${name}_Hunt_Button`).addEventListener("click", function(){
-    playerData[`${name}`].material.push("stuff");
+    //playerData[`${name}`].material.push("stuff");
     console.log(`${name} clicked!`);
   });
 });

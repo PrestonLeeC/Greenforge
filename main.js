@@ -1,6 +1,23 @@
 // Monster Data
 const Monsters = {
 	// ==============
+	Quillrat: {
+    loot_breakpoints: [
+      { breakpoint: 0,
+        loot: [
+          { i: "Plucked Quill", ct: 1 }
+        ]
+      },
+      { breakpoint: 2,
+        loot: [
+          { i: "Plucked Quill", ct: 3 },
+          { i: "Rathide", ct: 2 }
+        ]
+      }
+    ],
+    default_discovered_materials: ["Plucked Quill"]
+	},
+	// ==============
 	Marinmoth: {
     base_material_loot: [
       {
@@ -161,7 +178,8 @@ var playerData = {
 // Testing values for player save file
 playerData = {
   isNewAccount: false,
-  "Marinmoth Scale": 5
+  "Marinmoth Scale": 5,
+  "Quillrat Primary Weapon": "none",
 }
 
 // Add a bunch of monsters to the playerData
@@ -225,56 +243,64 @@ Object.entries(Monsters).forEach(monster => {
 
       <div id="${name}_Equip" class="grid-of-collapsers collapse">
 
-        <button id="${name}_Status_Button" class="equip button"
-        data-bs-toggle="collapse"
-        data-bs-target="#${name}_Attack_Status">
-          <p class="button-label-small">
-            Status
-          </p>
+        <ul class="nav nav-tabs nav-justified">
+          <li class="nav-item">
+            <a class="nav-link disabled" data-bs-toggle="tab"
+            href="#">Research</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" data-bs-toggle="tab"
+            href="#${name}_Loadout_Grid">Loadout</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab"
+            href="#${name}_Attack_Status">Skill</a>
+          </li>
+        </ul>
 
-          <table id="${name}_Attack_Status" class="collapse">
-            <tr>
-              <th>Attack Power:</th>
-              <td>150</td>
-            </tr>
-            <tr>
-              <th>Stamina:</th>
-              <td>100</td>
-            </tr>
-          </table>
+        <div class="tab-content">
 
-        </button>
+          <div id="${name}_Loadout_Grid" class="tab-pane active loadout-grid">
 
-        <button id="${name}_Loadout_Button" class="equip button"
-        data-bs-toggle="collapse"
-        data-bs-target="#${name}_Loadout_Grid">
-          <p class="button-label-small">Loadout</p>
-
-          <div id="${name}_Loadout_Grid" class="collapse">
-
-            <div class="loadout-item-grid-container">
+            <div id="${name}_Loadout_Primary_Weapon" 
+            class="loadout-item-grid-container">
               <div class="loadout-item-icon">
                 <div class="item-icon-container icon-border">
                   <img src="equip/sword.png">
                 </div>
               </div>
-              <div class="loadout-item-name">
-                Scimitar
+              <div id="${name}_Loadout_Primary_Weapon_Name"
+              class="loadout-item-name">
+                Equip a Primary Weapon
               </div>
-              <div class="loadout-item-subtitle">
-                Subtitle
+              <div id="${name}_Loadout_Primary_Weapon_Subtitle"
+              class="loadout-item-subtitle">
+                
               </div>
               <div class="loadout-item-info-1">
-                Attack 150
+                
               </div>
               <div class="loadout-item-info-2">
-                Ice 73
+                
               </div>
             </div>
-
           </div>
 
-        </button>			
+          <div id="${name}_Attack_Status" class="tab-pane">
+            <table>
+              <tr>
+                <th>Attack Power:</th>
+                <td>150</td>
+              </tr>
+              <tr>
+                <th>Stamina:</th>
+                <td>100</td>
+              </tr>
+            </table>
+          </div>
+
+        </div>
+      </div>
 
       </div>
 
@@ -299,8 +325,17 @@ Object.entries(Monsters).forEach(monster => {
 
 // Add known materials to each monster
 Object.entries(Monsters).forEach(monster => {
-  let container = document.getElementById("Marinmoth Materials Container");
-  
+  let name = String(monster).split(',')[0];
+  let container = document.getElementById(`${name} Materials Container`);
+
+  // Add the modal popup to Equip a Primary Weapon
+  document.getElementById(`${name}_Loadout_Primary_Weapon`).addEventListener(
+    "click",
+    function(e) {
+      e.stopPropagation()
+      document.getElementById("myModal").style.display = "block";
+    }
+  )
 })
 
 

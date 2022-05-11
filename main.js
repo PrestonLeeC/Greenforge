@@ -3,19 +3,33 @@ const Monsters = {
 	// ==============
 	Quillrat: {
     loot_breakpoints: [
-      { breakpoint: 0,
+      { attack_power: 0,
+        attack_speed: 0.5,
         loot: [
-          { i: "Plucked Quill", ct: 1 }
+          { "Plucked Quill": 1 }
         ]
       },
-      { breakpoint: 2,
+      { attack_power: 2,
+        attack_speed: 1.0,
         loot: [
-          { i: "Plucked Quill", ct: 3 },
-          { i: "Rathide", ct: 2 }
+          { "Plucked Quill": 3 },
+          { "Rathide": 2 }
         ]
       }
     ],
-    default_discovered_materials: ["Plucked Quill"]
+    default_discovered_materials: [ "Plucked Quill" ],
+    greenforge: [
+      {
+        "Plucked Spines": {
+          crafting_materials: [
+            { "Plucked Quill": 2 }
+          ],
+          stats: [
+            { "Attack": 2 }
+          ]
+        }
+      }
+    ]
 	},
 	// ==============
 	Marinmoth: {
@@ -159,6 +173,25 @@ const Monsters = {
 	},
 }
 
+function getAttackPower (monsterName) {
+  return 0;
+}
+
+function getAttackSpeed (monsterName) {
+  // Given power in range a to b,
+  // find what percentage of power that is in between a and b.
+  let power = getAttackPower(monsterName)
+  let power_a = Monsters[monsterName].loot_breakpoints[0].attack_power
+  let power_b = Monsters[monsterName].loot_breakpoints[1].attack_power
+  let power_percent = (power - power_a) / (power_b - power_a)
+
+  // Linear interpolate between the 2 attack speed breakpoints
+  // using power_percent as alpha
+  let speed_a = Monsters[monsterName].loot_breakpoints[0].attack_speed
+  let speed_b = Monsters[monsterName].loot_breakpoints[1].attack_speed
+  return speed_a * (1 - power_percent) + speed_b * power_percent;
+}
+
 // Item Data
 const Items = {
   // ========
@@ -170,25 +203,65 @@ const Items = {
   }
 }
 
-// Create the player save file
-var playerData = {
-  isNewAccount: true
+// Declare an object to hold player Save Data
+var playerSaveData = {
+  // Initialize with the bare-minimum
+  monsters: { }
 }
 
-// Testing values for player save file
-playerData = {
+// Here, we must discover our monster.
+// But only later can we set up the HTML for it.
+discoverMonster ("Quillrat");
+
+// Load player Save Data Here
+
+// TESTING ONLY values for player save file
+/*
+playerSaveData = {
   isNewAccount: false,
-  "Marinmoth Scale": 5,
-  "Quillrat Primary Weapon": "none",
+  Marinmoth: {
+    loadout: {
+      primary_weapon: "Plucked Quills"
+    },
+    discovered_materials: [ "Moth Wing" ],
+    materials: {
+      "Moth Wing": 3,
+      "Other Item": 4
+    }
+  }
+}
+*/
+
+function discoverMonster (monsterName) {
+  // Add the monster to the player's monsters array,
+  // thereby "discovering" the monster (no longer null)
+  playerSaveData.monsters[monsterName] = {
+    discovered: true,
+
+    // Set the monster's hunt progress bar to 0
+    progress: 0,
+
+    // And cache an attack speed value for the monster.
+    attack_speed_cached: getAttackSpeed(monsterName),
+
+    // Initialize materials
+    materials: {}
+  }
+
+  // Set already discovered materials
+  Monsters[monsterName].default_discovered_materials.forEach(
+    function(material) { 
+      discoverMaterial(monsterName, material)
+    })
 }
 
-// Add a bunch of monsters to the playerData
-Object.entries(Monsters).forEach(monster => {
-  let name = String(monster).split(',')[0];
-  playerData[`${name}`] = {
-    material: []
-  }
-});
+// You can make sure material exists in player data and in HTML
+function discoverMaterial (monsterName, materialName) {
+  playerSaveData.monsters[monsterName].materials[materialName] = 0;
+}
+
+function createHTML_MonsterMaterial () {
+}
 
 // disable image dragging
 window.onload = function (e) {
@@ -205,9 +278,11 @@ function disableDragging(e) {
   e.preventDefault();
 }
 
-// Create all Monster Cards
-Object.entries(Monsters).forEach(monster => {
+// Create Monster Cards for known monsters
+Object.entries(playerSaveData.monsters).forEach(monster => {
+
     let name = String(monster).split(',')[0];
+
     let newHTML = ``;
     newHTML += `
     <li id="${name}" class="monster-container">
@@ -224,7 +299,7 @@ Object.entries(Monsters).forEach(monster => {
         <button id="${name}_Hunt_Button" class="monster-icon-container"
         style="grid-row: span 3;">
           <img class="monster-icon" src="monster/${name}.png" alt="text">
-          <div class="click-progress"></div>
+          <div id="${name}_Hunt_Progress" class="click-progress"></div>
         </button>
 
         <button class="forge button"
@@ -320,41 +395,155 @@ Object.entries(Monsters).forEach(monster => {
     `;
     
     // Add the new HTML to the Monster_List
-    document.getElementById("Monsters_List").innerHTML += newHTML;
+    document.getElementById(`Monsters_List`).innerHTML += newHTML;
+
+    // Add known materials to the materials container    
+    Monsters[name].default_discovered_materials.forEach(
+    function(materialName) { 
+      
+      // Get container to dump new HTML into
+      let container = document.getElementById(`${name}_Material`)
+
+      newHTML = `
+        <div id="${materialName}" class="item-container">
+          <div class="item-icon-container">
+            <img src="item/${materialName}.png">
+          </div><span id="${materialName}_Count">0</span>
+        </div>
+      `
+      // Add the new HTML to the Monster_List
+      container.innerHTML += newHTML;
+    })
+
+    // Add the modal popup to Equip a Primary Weapon
+    document.getElementById(`${name}_Loadout_Primary_Weapon`).addEventListener(
+      "click", function() {
+        console.log("Equip a Primary Weapon clicked!")
+        createModal()
+    })
+    
+    // Add on-click to monster icon
+    document.getElementById(`${name}_Hunt_Button`).addEventListener("click", function(){
+      //playerData[`${name}`].material.push("stuff");
+      console.log(`${name} clicked!`);
+    });
 })
 
-// Add known materials to each monster
-Object.entries(Monsters).forEach(monster => {
-  let name = String(monster).split(',')[0];
-  let container = document.getElementById(`${name} Materials Container`);
-
-  // Add the modal popup to Equip a Primary Weapon
-  document.getElementById(`${name}_Loadout_Primary_Weapon`).addEventListener(
-    "click",
-    function(e) {
-      e.stopPropagation()
-      document.getElementById("myModal").style.display = "block";
-    }
-  )
-})
-
-
-// Hunt whenever a player clicks a monster or is auto-clicked
-function hunt (monsterName) {
+// Generate Loot will return an item from the monster's loot table.
+function generateLoot (monsterName) {
   // Takes in a monster name
   // Uses the player save file info to determine
   // What gear you're using
   // So we can get a combat rating
+  let power = getAttackPower(monsterName)
+
   // And then we use the combat rating as input
   // On the monster loot table
-  // To randomly select a loot item
+  // To randomly select a loot material
+  let loot = "Plucked Quill"
+
+  // If this material is NOT already discovered...
+  if (playerSaveData.monsters[monsterName].materials[loot] == null) {
+    discoverMaterial( monsterName, loot )
+  }
+  // Get 1 material
+  playerSaveData.monsters[monsterName].materials[loot]++
+  console.log(playerSaveData.monsters[monsterName].materials[loot])
+
+  // And update the HTML to reflect this change
+  document.getElementById(`${loot}_Count`).innerHTML = 
+    playerSaveData.monsters[monsterName].materials[loot]
 }
 
-// Add on-click to monster icon
-Object.entries(Monsters).forEach(monster => {
-  let name = String(monster).split(',')[0];
-  document.getElementById(`${name}_Hunt_Button`).addEventListener("click", function(){
-    //playerData[`${name}`].material.push("stuff");
-    console.log(`${name} clicked!`);
-  });
-});
+function update_Monster_Progress(deltaTime) {
+  
+  // for each monster the player has discovered...
+  Object.entries(playerSaveData.monsters).forEach(monster => {
+
+    // Get monster name
+    let name = String(monster).split(',')[0];
+
+    // Get attack speed
+    let attack_speed = playerSaveData.monsters[name].attack_speed_cached;
+
+    // Set monster's new progress
+    playerSaveData.monsters[name].progress += attack_speed * deltaTime;
+
+    // If monster's progress is beyond 95, reduce and give rewards
+    if (playerSaveData.monsters[name].progress >= 95) {
+      playerSaveData.monsters[name].progress -= 95
+      generateLoot(name)
+    }
+
+    // Find monster progress bar
+    let progress_bar = document.getElementById(`${name}_Hunt_Progress`)
+
+    // Increase the monster progress by deltaTime
+    progress_bar.style.width = `${playerSaveData.monsters[name].progress}%`
+  })
+
+}
+
+// ===============================================================
+//  Create a modal with a list of equippable weapons.
+// ===============================================================
+function createModal() {
+  // Reveal modal
+  document.getElementById("Modal").style.display = "block";
+  let modal_content = document.getElementById("Modal_Content")
+  modal_content.innerHTML = null;
+
+  // Here we must add all the weapon buttons.
+  let weapons = ["Plucked Quills", "Other Item", "Third Item"]
+  for (let i = 0; i < weapons.length; i++) {
+    modal_content.innerHTML += `
+        <div id="Select_${weapons[i]}" class="loadout-item-grid-container">
+          <div class="loadout-item-icon">
+            <div class="item-icon-container icon-border">
+              <img src="equip/sword.png">
+            </div>
+          </div>
+          <div class="loadout-item-name">
+            Scimitar
+          </div>
+          <div class="loadout-item-subtitle">
+            Subtitle
+          </div>
+          <div class="loadout-item-info-1">
+            Attack 150
+          </div>
+          <div class="loadout-item-info-2">
+            Ice 73
+          </div>
+        </div>
+    `
+    // Make the button interactive
+    document.getElementById(`Select_${weapons[i]}`).addEventListener("click",
+      function (j) {
+        console.log(`clicked the Select_${weapons[j]} button.`)
+        document.getElementById("Modal").style.display = "none";
+      }(i)
+    )
+  }
+}
+
+// ===============================================================
+//  Refresh the game display as quickly as the browser will allow
+// ===============================================================
+const perfectFrameTime = 1000 / 60;
+let deltaTime = 0;
+let lastTimestamp = 0;
+
+// ===============================================================
+//  Main Update Function - runs at around 60fps
+// ===============================================================
+function update(timestamp) {
+  deltaTime = (timestamp - lastTimestamp) / perfectFrameTime;
+  lastTimestamp = timestamp;
+  
+  update_Monster_Progress(deltaTime);
+
+  requestAnimationFrame(update);
+}
+// This call is first, then the function calls itself.
+requestAnimationFrame(update); 

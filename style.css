@@ -13,6 +13,10 @@
 	--light2: rgba(255, 217, 192, 0.64);
 	--light3: rgba(255, 217, 192, 0.44);
 	--light4: rgba(255, 217, 192, 0.24);
+	--red0: rgb(49, 34, 24);
+	--red1: rgb(63, 40, 24);
+	--red2: rgb(68, 35, 0);
+	--light-border: #FFEFCC11;
 
 	--vertical: 15.7vw;
 	--fontsize: 4.2vw;
@@ -102,7 +106,7 @@ ul {
 	bottom: 0.7vw;
 	left: 1vw;
 	height: 1vw;
-	width: 20%;
+	width: 95%;
 	background-color: rgb(211, 154, 79);
 	border-bottom: 1px solid rgb(211, 142, 15);
 	border-radius: 3vw;
@@ -131,7 +135,7 @@ ul {
 .button {
 	background-color: var(--brown2);
 	border-radius: 1.5vw;
-	border: 0.2vw solid #FFEFCC11;
+	border: 1px solid #FFEFCC11;
 	margin: 0.5vw;
 	line-height: 15vw;
 	position: relative;
@@ -205,11 +209,11 @@ ul {
 	outline-offset: -0.6vw;
 }
 
-.equip { background-color: rgb(49, 34, 24); }
+.equip { background-color: var(--red0); }
 @media (hover: hover) and (pointer: fine) {
-.equip:hover { background-color: rgb(63, 40, 24); }}
-.equip:active {	background-color: rgb(68, 35, 0); }
-.equip[aria-expanded="true"]{ background-color: rgb(68, 35, 0); }
+.equip:hover { background-color: var(--red1); }}
+.equip:active {	background-color: var(--red2); }
+.equip[aria-expanded="true"]{ background-color: var(--red2); }
 
 .forge { background-color: rgb(39, 41, 32); }
 @media (hover: hover) and (pointer: fine) {
@@ -330,6 +334,38 @@ tr {
 	pointer-events:all;
 }
 
+.nav-link {
+	line-height: 8vw;
+}
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+  background: var(--red2);
+	color: var(--light00);
+  border: 1px solid var(--light-border);
+	box-sizing: border-box;
+}
+
+.nav-tabs .nav-item .nav-link:hover {
+	background: var(--red1);
+  border: 1px solid var(--light-border);
+}
+
+.nav-tabs {
+	border: 0;
+}
+
+.nav-link {
+	color: var(--light1);
+}
+
+.nav-link:hover {
+	color: var(--light00);
+}
+
+a {
+	color: var(--light1);
+}
+
 .gray {
 	color:rgb(221, 202, 168)
 }
@@ -374,6 +410,10 @@ tr {
 	font-weight: 600;
 	color: var(--light1);
 	text-shadow: 0px 0px 2px rgb(22, 21, 20);
+}
+
+.item-container span {
+	line-height: 0;
 }
 
 .weapon-icon-container{
@@ -429,6 +469,7 @@ tr {
   padding-top: 100px; /* Location of the box */
   left: 0;
   top: 0;
+	border: 0;
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
@@ -438,10 +479,7 @@ tr {
 
 /* Modal Content */
 .modal-content {
-  background-color: #fefefe;
   margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
   width: 80%;
 }
 

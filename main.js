@@ -325,7 +325,7 @@ Object.entries(playerSaveData.monsters).forEach(monster => {
           </li>
           <li class="nav-item">
             <a class="nav-link active" data-bs-toggle="tab"
-            href="#${name}_Loadout_Grid">Loadout</a>
+            href="#${name}_Loadout_Grid">Equip</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" data-bs-toggle="tab"
@@ -418,15 +418,8 @@ Object.entries(playerSaveData.monsters).forEach(monster => {
     // Add the modal popup to Equip a Primary Weapon
     document.getElementById(`${name}_Loadout_Primary_Weapon`).addEventListener(
       "click", function() {
-        console.log("Equip a Primary Weapon clicked!")
-        createModal()
+        createModal("primaryWeapon", name)
     })
-    
-    // Add on-click to monster icon
-    document.getElementById(`${name}_Hunt_Button`).addEventListener("click", function(){
-      //playerData[`${name}`].material.push("stuff");
-      console.log(`${name} clicked!`);
-    });
 })
 
 // Generate Loot will return an item from the monster's loot table.
@@ -448,7 +441,6 @@ function generateLoot (monsterName) {
   }
   // Get 1 material
   playerSaveData.monsters[monsterName].materials[loot]++
-  console.log(playerSaveData.monsters[monsterName].materials[loot])
 
   // And update the HTML to reflect this change
   document.getElementById(`${loot}_Count`).innerHTML = 
@@ -469,17 +461,18 @@ function update_Monster_Progress(deltaTime) {
     // Set monster's new progress
     playerSaveData.monsters[name].progress += attack_speed * deltaTime;
 
-    // If monster's progress is beyond 95, reduce and give rewards
-    if (playerSaveData.monsters[name].progress >= 95) {
-      playerSaveData.monsters[name].progress -= 95
+    // If monster's progress is beyond 60, reduce and give rewards
+    if (playerSaveData.monsters[name].progress >= 60) {
+      playerSaveData.monsters[name].progress -= 60
       generateLoot(name)
     }
 
     // Find monster progress bar
     let progress_bar = document.getElementById(`${name}_Hunt_Progress`)
 
-    // Increase the monster progress by deltaTime
-    progress_bar.style.width = `${playerSaveData.monsters[name].progress}%`
+    // Update the progress bar
+    let progress_percent = playerSaveData.monsters[name].progress * 1.58
+    progress_bar.style.width = `${progress_percent}%`
   })
 
 }
@@ -487,44 +480,52 @@ function update_Monster_Progress(deltaTime) {
 // ===============================================================
 //  Create a modal with a list of equippable weapons.
 // ===============================================================
-function createModal() {
+function createModal(slotName, monsterName) {
   // Reveal modal
   document.getElementById("Modal").style.display = "block";
   let modal_content = document.getElementById("Modal_Content")
   modal_content.innerHTML = null;
 
   // Here we must add all the weapon buttons.
-  let weapons = ["Plucked Quills", "Other Item", "Third Item"]
-  for (let i = 0; i < weapons.length; i++) {
-    modal_content.innerHTML += `
-        <div id="Select_${weapons[i]}" class="loadout-item-grid-container">
-          <div class="loadout-item-icon">
-            <div class="item-icon-container icon-border">
-              <img src="equip/sword.png">
-            </div>
-          </div>
-          <div class="loadout-item-name">
-            Scimitar
-          </div>
-          <div class="loadout-item-subtitle">
-            Subtitle
-          </div>
-          <div class="loadout-item-info-1">
-            Attack 150
-          </div>
-          <div class="loadout-item-info-2">
-            Ice 73
-          </div>
-        </div>
-    `
-    // Make the button interactive
-    document.getElementById(`Select_${weapons[i]}`).addEventListener("click",
-      function (j) {
-        console.log(`clicked the Select_${weapons[j]} button.`)
-        document.getElementById("Modal").style.display = "none";
-      }(i)
-    )
+  let items = ["Plucked Quills", "Other Item", "Third Item"]
+  for (let i = 0; i < items.length; i++) {
+    createModalButton(i, slotName, items[i], monsterName)
   }
+}
+
+function createModalButton(iteration, slotName, itemName, monsterName) {
+    var div = document.createElement("div")
+    div.id = `Select_${itemName}`
+    div.className = "loadout-item-grid-container"
+    div.innerHTML = `
+      <div class="loadout-item-icon">
+        <div class="item-icon-container icon-border">
+          <img src="equip/sword.png">
+        </div>
+      </div>
+      <div class="loadout-item-name">
+        Scimitar
+      </div>
+      <div class="loadout-item-subtitle">
+        Subtitle
+      </div>
+      <div class="loadout-item-info-1">
+        Attack 150
+      </div>
+      <div class="loadout-item-info-2">
+        Ice 73
+      </div>
+  `
+  document.getElementById("Modal_Content").appendChild(div)
+
+  // Make the button interactive
+  document.getElementById(`Select_${itemName}`).addEventListener(
+    "click", function () {
+      playerSaveData.monsters[monsterName][slotName] = itemName
+      
+      document.getElementById("Modal").style.display = "none";
+    }
+  )
 }
 
 // ===============================================================

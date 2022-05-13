@@ -16,6 +16,7 @@
 	--red0: rgb(49, 34, 24);
 	--red1: rgb(63, 40, 24);
 	--red2: rgb(68, 35, 0);
+	--blue00: rgb(30, 30, 35);
 	--blue0: rgb(39, 39, 40);
 	--light-border: #FFEFCC11;
 
@@ -50,7 +51,7 @@ body::-webkit-scrollbar {
 	line-height: var(--vertical);
 	font-size: var(--fontsize);
 	font-weight: 500;
-	font-family: "Poppins";
+	font-family: "Poppins", sans-serif;
 	font-size: 3.6vw;
 	white-space: nowrap;
 	-webkit-tap-highlight-color: transparent;
@@ -149,8 +150,7 @@ ul {
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
 	overflow: hidden;
-	margin: 0.5vw;
-	margin-top: 0;
+	margin: 0;
 }
 
 .with-icon {
@@ -203,6 +203,8 @@ ul {
 .loadout-item-icon {
 	width: 15vw;
 	height: 15vw;
+	padding: 0;
+	margin-left: -0.7vw;
 }
 
 .icon-border {	
@@ -331,8 +333,9 @@ tr {
 	grid-template-columns: 16.5vw 1.5fr 1fr;
 	width: 100%;
 	border-top: 1px dashed var(--brown4);
-	background-color: rgb(49, 34, 24);
+	background-color: var(--red1);
 	pointer-events:all;
+	
 }
 
 .nav-link {
@@ -399,7 +402,7 @@ a {
 .monster-loot-container {
 	display: grid;
 	margin: 1vw;
-	border-radius: 3vw;
+	border-radius: 2vw;
 	gap: 1vw;
 	grid-template-columns: repeat(6, 1fr);
 	background-color: var(--blue0);
@@ -408,8 +411,8 @@ a {
 .item-container {
 	background-color: var(--brown0);
 	aspect-ratio: 1/1.25;
-	border-radius: 3vw;
-	line-height: 3.3vw;
+	border-radius: 2vw;
+	line-height: 3vw;
 	font-weight: 600;
 	color: var(--light1);
 	text-shadow: 0px 0px 2px rgb(22, 21, 20);
@@ -423,7 +426,7 @@ a {
 	background-color: var(--grey0);
 	aspect-ratio: 1/1;
 	margin: 0.5vw;
-	border-radius: 2.5vw;
+	border-radius: 2vw;
 	max-height: 94%;
 }
 
@@ -434,7 +437,7 @@ a {
 	padding: 0.8vw;
 	font-size: 0;
 	line-height: 0;
-	border-radius: 2.5vw;
+	border-radius: 1.5vw;
 	overflow: hidden;
 }
 

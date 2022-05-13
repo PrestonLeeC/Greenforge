@@ -17,7 +17,7 @@ const Monsters = {
         ]
       }
     ],
-    default_discovered_materials: [ "Plucked Quill" ],
+    default_discovered_materials: [ "Plucked Quill", "Rathide" ],
     greenforge: [
       {
         "Plucked Spines": {
@@ -462,10 +462,7 @@ function update_Monster_Progress(deltaTime) {
     playerSaveData.monsters[name].progress += attack_speed * deltaTime;
 
     // If monster's progress is beyond 60, reduce and give rewards
-    if (playerSaveData.monsters[name].progress >= 60) {
-      playerSaveData.monsters[name].progress -= 60
-      generateLoot(name)
-    }
+    payoutProgressRecursive(name)
 
     // Find monster progress bar
     let progress_bar = document.getElementById(`${name}_Hunt_Progress`)
@@ -475,6 +472,14 @@ function update_Monster_Progress(deltaTime) {
     progress_bar.style.width = `${progress_percent}%`
   })
 
+}
+
+function payoutProgressRecursive(monsterName) {  
+  if (playerSaveData.monsters[monsterName].progress >= 60) {
+    playerSaveData.monsters[monsterName].progress -= 60
+    generateLoot(monsterName)
+    payoutProgressRecursive(monsterName);
+}
 }
 
 // ===============================================================

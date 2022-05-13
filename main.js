@@ -339,11 +339,12 @@ Object.entries(playerSaveData.monsters).forEach(monster => {
 
             <div id="${name}_Loadout_Primary_Weapon" 
             class="loadout-item-grid-container">
-              <div class="loadout-item-icon">
-                <div class="item-icon-container icon-border">
-                  <img src="equip/sword.png">
+                <div id="${name}_Primary_Weapon_Container"
+                class="item-container loadout-item-icon">
+                  <div class="item-icon-container">
+                    <img src="equip/sword.png">
+                  </div>
                 </div>
-              </div>
               <div id="${name}_Loadout_Primary_Weapon_Name"
               class="loadout-item-name">
                 Equip a Primary Weapon
@@ -361,7 +362,7 @@ Object.entries(playerSaveData.monsters).forEach(monster => {
             </div>
           </div>
 
-          <div id="${name}_Attack_Status" class="tab-pane">
+          <div id="${name}_Attack_Status" class="tab-pane loadout-grid">
             <table>
               <tr>
                 <th>Attack Power:</th>

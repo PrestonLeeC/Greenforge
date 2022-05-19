@@ -30,7 +30,7 @@ body {
 	padding: 1vw;
 	padding-top: 0.1vw;
 	-ms-overflow-style: none;  /* IE and Edge */
-	 overflow-y: scroll;
+	overflow-y: scroll;
 
 	-webkit-user-select: none; /* Safari */        
 	-moz-user-select: none; /* Firefox */

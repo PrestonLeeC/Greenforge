@@ -1,183 +1,29 @@
-// Monster Data
-const Monsters = {
-	// ==============
-	Quillrat: {
-    loot_breakpoints: [
-      { attack_power: 0,
-        attack_speed: 0.5,
-        loot: [
-          { "Plucked Quill": 1 }
-        ]
-      },
-      { attack_power: 2,
-        attack_speed: 1.0,
-        loot: [
-          { "Plucked Quill": 3 },
-          { "Rathide": 2 }
-        ]
-      }
-    ],
-    default_discovered_materials: [ "Plucked Quill", "Rathide" ],
-    greenforge: [
-      {
-        "Plucked Spines": {
-          crafting_materials: [
-            { "Plucked Quill": 2 }
-          ],
-          stats: [
-            { "Attack": 2 }
-          ]
-        }
-      }
-    ]
-	},
-	// ==============
-	Marinmoth: {
-    base_material_loot: [
-      {
-        item: "Marinmoth Scale",
-        count: 3
-      },
-      {
-        item: "Marinmoth Wing",
-        count: 1
-      }
-    ],
-    default_discovered_materials: ["Marinmoth Scale", "Marinmoth Wing"]
-	},
-	// ==============
-	// Balverine inspired, but more pig than wolf.
-	// Paw Pig Wolf
-	Palvig: {
-	},
-	// ==============
-	// Unicorn? Harlequin-like techniques?
-	Hartleigh: {
-	},
-	// ==============
-	Abnocte: {
-	},
-	// ==============
-	// Ygsfalo (Ex- Ygg is a tree, important to all that is holy)
-	// Gold Rot Fright Viper Prime Eval Azid
-	// Bug Pest Cloud Hound Figure Dweller
-	// Goulof (Colossal Golem Gulag)
-	// Stormwile (Storm Wild)
-	// Saphraze (Sapphire Razor)
-	// Teraverba (Terrafirma Herbivore)
-	// Gandell (Candle) (forge fire weapon: Gandell Wick)
-	// ==============
-	// Fearan (Fear Talon Raptor) & Fearan Beth
-	// Beth (Pest) as suffix for "Great" or Tempered (Heroic version)
-	Fearan: {
-	},
-	// ==============
-	// Zeser (Blazeserpent) & Zeser Beth
-	Zeser: {
-	},
-	// ==============
-	// Vigure Beth (Viper Figure Pest)
-	Vigure: {
-	},
-	// ==============
-	// Zeser (Blazeserpent) & Zeser Beth
-	Zeser: {
-			combat_power: 0.2,
-			body: {
-			impact: 3, slashing: 3, shot: 3,
-					fire: 3, water: 3,
-					shock: 0, pitfall: 0,
-			loot: [
-				{ name:"Zeser Scale", quantity: 60 },
-				{ name:"Zeser Hide",  quantity: 20 },
-				{ name:"Zeser Extract",  quantity: 20 },
-				{ name:"Zeser Jawbone",  quantity: 20 },
-			]
-		},
-		capture: { loot: [] }
-	},  
-	// ==============
-	Saelvire: {
-			combat_power: 0.2,
-			body: {
-			impact: 3, slashing: 3, shot: 3,
-					fire: 3, water: 3,
-					shock: 0, pitfall: 0,
-			loot: [
-				{ name:"Saelvire Scale", quantity: 60 },
-				{ name:"Saelvire Hide",  quantity: 20 },
-			]
-		},
-		capture: { loot: [] }
-	},
-	// ==============
-	Venilios: {
-			combat_power: 1,
-			body: {
-			impact: 3, slashing: 2, shot: 3,
-					fire: 3, water: 3,
-					shock: 2, pitfall: 3,
-			loot: [
-				{ name:"Venilios Scale", quantity: 60 },
-				{ name:"Venilios Hide",  quantity: 20 },
-				{ name:"Venilios Plate",    quantity:  1 }
-			]
-		},
-		capture: {
-			loot: [
-				{ name:"Venilios Scale", quantity: 1 },
-				{ name:"Venilios Hide",  quantity: 2 },
-				{ name:"Venilios Mane",  quantity: 1 },
-				{ name:"Venilios Claw",  quantity: 2 }
-			]
-		},
-		head: {
-			impact: 3, slashing: 2, shot: 3,
-					cut: false,
-			loot: [
-				{ name:"Venilios Mane", quantity: 2 },
-				{ name:"Venilios Hide", quantity: 1 }
-			]
-		},
-		stomach: {
-			impact: 3, slashing: 2, shot: 3,
-					cut: false,
-			loot: [
-					{ name:"Venilios Scale", quantity: 1 },
-					{ name:"Venilios Hide",  quantity: 3 },
-				]
-			},
-		left_leg: {
-			impact: 3, slashing: 2, shot: 3,
-					cut: false,
-			loot: [
-				{ name:"Venilios Claw", quantity: 1 }
-			]
-		}
-	},
-	// ==============
-	// ====(Arctocine means grey bear)
-	// ====(Carnivoran means mammal that has bladelike carnassial teeth and eats meat)
-	Arctocine: {
-			combat_power: 2,
-			body: {
-			impact: 3, slashing: 3, shot: 3,
-					fire: 3, water: 3,
-					shock: 0, pitfall: 0,
-			loot: [
-				{ name:"Arctocine Scale", quantity: 60 },
-				{ name:"Arctocine Hide",  quantity: 20 },
-			]
-		},
-		capture: { loot: [] }
-	},
+import { Monsters } from "/modules/monsters.js"
+
+function getEquipment (equipmentName) {
+  Object.entries(Monsters).forEach(monster => {
+    if ('greenforge' in monster)
+      if (equipmentName in monster.greenforge)
+        return monster.greenforge[equipmentName];
+  })
+}
+
+function cacheAttackPower (monsterName) {
+  // go through each item in the loadout and collect stat count
+  var damage = 0
+  Monsters[monsterName].resistances.forEach(resistance => {
+    let resistanceName = String(resistance).split(',')[0];
+    getEquipment(playerSaveData.monsters[monsterName].loadout).forEach(equipment => {
+      damage += equipment.stats[resistance]
+    });
+  });
 }
 
 function getAttackPower (monsterName) {
-  return 0;
+  return playerSaveData.monsters[monsterName].attack_power_cached;
 }
 
-function getAttackSpeed (monsterName) {
+function cacheAttackSpeed(monsterName) {
   // Given power in range a to b,
   // find what percentage of power that is in between a and b.
   let power = getAttackPower(monsterName)
@@ -190,6 +36,10 @@ function getAttackSpeed (monsterName) {
   let speed_a = Monsters[monsterName].loot_breakpoints[0].attack_speed
   let speed_b = Monsters[monsterName].loot_breakpoints[1].attack_speed
   return speed_a * (1 - power_percent) + speed_b * power_percent;
+}
+
+function getAttackSpeed (monsterName) {
+  return playerSaveData.monsters[monsterName].attack_speed_cached;
 }
 
 // Item Data
@@ -219,16 +69,20 @@ discoverMonster ("Quillrat");
 /*
 playerSaveData = {
   isNewAccount: false,
-  Marinmoth: {
-    loadout: {
-      primary_weapon: "Plucked Quills"
-    },
-    discovered_materials: [ "Moth Wing" ],
-    materials: {
-      "Moth Wing": 3,
-      "Other Item": 4
+  monsters: [
+    Marinmoth: {
+      loadout: [
+        { "Primary Weapon": "Plucked Quills" },
+        { "Primary Weapon": "Attack Potion" }
+      ],
+      discovered_materials: [ "Moth Wing" ],
+      materials: {
+        "Moth Wing": 3,
+        "Other Item": 4
+      },
+      attack_power_cached: 2
     }
-  }
+  ]
 }
 */
 
@@ -240,13 +94,19 @@ function discoverMonster (monsterName) {
 
     // Set the monster's hunt progress bar to 0
     progress: 0,
-
-    // And cache an attack speed value for the monster.
-    attack_speed_cached: getAttackSpeed(monsterName),
+    attack_power_cached: 0,
+    attack_speed_cached: 0,
 
     // Initialize materials
-    materials: {}
+    materials: {},
+
+    // Initialize loadout
+    loadout: []
   }
+
+  // cache an attack speed value for the monster.
+  playerSaveData.monsters[monsterName].attack_speed_cached = 
+    cacheAttackSpeed(monsterName)
 
   // Set already discovered materials
   Monsters[monsterName].default_discovered_materials.forEach(
@@ -462,7 +322,7 @@ function update_Monster_Progress(deltaTime) {
     // Set monster's new progress
     playerSaveData.monsters[name].progress += attack_speed * deltaTime;
 
-    // If monster's progress is beyond 60, reduce and give rewards
+    // If monster's progress is complete, reduce and give rewards
     payoutProgressRecursive(name)
 
     // Find monster progress bar
@@ -483,6 +343,31 @@ function payoutProgressRecursive(monsterName) {
 }
 }
 
+function getMaterialsList(recipeName) {
+  let materialsList = []
+  Object.entries(Monsters).forEach(monster => {
+    if ('greenforge' in monster)
+      if (recipeName in monster.greenforge)
+        materialsList = monster.greenforge[recipeName].crafting_materials;
+  })
+}
+
+function isGreenforgeRecipeKnown(recipeName) {
+  // Get a list of materials the recipe requires
+  let materialsList = getMaterialsList(recipeName)
+  // For each material in the recipe
+  materialsList.forEach(materialName => {
+    if (condition) {
+      
+    }
+  });
+  // 
+}
+
+function getKnownEquipForSlot(slotName) {
+
+}
+
 // ===============================================================
 //  Create a modal with a list of equippable weapons.
 // ===============================================================
@@ -492,8 +377,10 @@ function createModal(slotName, monsterName) {
   let modal_content = document.getElementById("Modal_Content")
   modal_content.innerHTML = null;
 
+  // Come up with a list of possible equippable items
+  let items = getKnownEquipForSlot(slotName)
+
   // Here we must add all the weapon buttons.
-  let items = ["Plucked Quills", "Other Item", "Third Item"]
   for (let i = 0; i < items.length; i++) {
     createModalButton(i, slotName, items[i], monsterName)
   }
@@ -510,13 +397,13 @@ function createModalButton(iteration, slotName, itemName, monsterName) {
         </div>
       </div>
       <div class="loadout-item-name">
-        Scimitar
+        ${itemName}
       </div>
       <div class="loadout-item-subtitle">
-        Subtitle
+        ${monsterName}
       </div>
       <div class="loadout-item-info-1">
-        Attack 150
+        ${getEquipment(itemName)}
       </div>
       <div class="loadout-item-info-2">
         Ice 73

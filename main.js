@@ -1,4 +1,4 @@
-import { Monsters } from "/modules/monsters.js"
+import { Monsters } from "/Greenforge/modules/monsters.js"
 
 function getEquipment (equipmentName) {
   Object.entries(Monsters).forEach(monster => {

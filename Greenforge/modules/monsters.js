@@ -1,5 +1,5 @@
 // Monster Data
-export default Monsters = {
+export const Monsters = {
 	// ==============
 	Quillrat: {
     resistances: [

@@ -24,6 +24,7 @@ export const Monsters = {
     default_discovered_materials: [ "Plucked Quill", "Rathide" ],
     greenforge: {
       "Plucked Spines": {
+        equipment_slot: "Primary Weapon",
         crafting_materials: [
           { "Plucked Quill": 2 }
         ],
